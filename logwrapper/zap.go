@@ -1,4 +1,4 @@
-package wrappers
+package logwrapper
 
 import (
 	"fmt"
@@ -26,8 +26,11 @@ func (w *ZapWrapper) Fatal(args ...interface{}) {
 }
 
 // NewZapWrapper returns new pointer to a ZapWrapper
-func NewZapWrapper(logger *zap.Logger) *ZapWrapper {
-	return &ZapWrapper{logger: logger}
+func NewZapWrapper(logger *zap.Logger) (*ZapWrapper, error) {
+	if logger == nil {
+		return nil, fmt.Errorf("nil pointer sent as zap logger")
+	}
+	return &ZapWrapper{logger: logger}, nil
 }
 
 func getMsgAndFields(args ...interface{}) (string, []zap.Field) {
