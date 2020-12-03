@@ -39,6 +39,11 @@ func New(config Config, logger ClientLogger, wrapID bool, reconnectFunc func() e
 	if wrapID {
 		clientID = wrapClientID(clientID)
 	}
+
+	if config.ConnectRetry.Attempts == 0 {
+		return nil, fmt.Errorf("Missing config.ConnectRetry.Attempts config")
+	}
+
 	client := &Client{
 		Config:        config,
 		subscriptions: make(map[string]stan.Subscription),
