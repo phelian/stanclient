@@ -77,6 +77,7 @@ func (c *Client) connect() error {
 					c.Logger.Info("Connection lost to nats-streaming server")
 					if c.reconnectFunc == nil {
 						c.Logger.Fatal(fmt.Sprintf("Connection lost, reason: %v", reason))
+						return
 					}
 
 					c.conn = nil
